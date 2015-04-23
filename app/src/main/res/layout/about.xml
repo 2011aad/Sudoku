@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center"
     android:padding="10dp"
-    android:background="@color/about_background"
-    android:weightSum="1">
+    android:background="@color/about_background">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/about_content"
         android:text="@string/about_text"
         android:textSize="24.5dp"
-        android:layout_marginBottom="100dp"
         android:textColor="@color/bright_foreground_inverse_material_dark" />
 
-    <Button
-        android:id="@+id/back_from_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back_from_about"
-        android:layout_gravity="center"/>
-
-</LinearLayout>
+</ScrollView>
