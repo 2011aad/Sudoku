@@ -17,6 +17,8 @@ public class Game extends Activity{
 
     private int[][] puzzle = new int[9][9];
 
+    private int[][][] used = new int[9][9][9];
+
     private PuzzleView puzzleView;
 
     protected void onCreate(Bundle savedInstanceState){
@@ -82,9 +84,35 @@ public class Game extends Activity{
     static private String toPuzzleString(int [][] puz){
         StringBuilder buf = new StringBuilder();
         for(int i=0;i<9;i++)
-            for(int j=0;j<0;j++)
+            for(int j=0;j<9;j++)
                 buf.append(puz[i][j]);
 
         return puz.toString();
+    }
+
+    private int getTile(int x,int y){
+        return puzzle[x][y];
+    }
+
+    private void setTile(int x,int y,int value){
+        puzzle[x][y] = value;
+    }
+
+    protected String getTileString(int x,int y){
+        int n = getTile(x,y);
+        if(n==0) return "";
+        else return String.valueOf(n);
+    }
+
+    protected void showKeypadOrError(int x,int y){
+
+    }
+
+    protected boolean setTileIfValid(int x,int y,int value){
+        return true;
+    }
+
+    protected int[] getUsedTiles(int x,int y){
+        return used[x][y];
     }
 }
