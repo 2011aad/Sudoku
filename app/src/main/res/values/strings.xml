@@ -37,4 +37,5 @@
     <string name="game_title">Game</string>
     <string name="no_moves_label">No moves</string>
     <string name="keypad_title">Keypad</string>
+    <string name="completion_label">Congratulations!</string>
 </resources>
