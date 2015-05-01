@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 
 /**
  * Created by zhangjian on 2015/4/24.
@@ -77,7 +78,7 @@ public class PuzzleView extends View{
         float y = height/2 - (fm.ascent+fm.descent)/2;
         for(int i=0;i<9;i++){
             for(int j=0;j<9;j++){
-                canvas.drawText(this.g.getTileString(j,i),i*width+x,j*height+y,foreground);
+                canvas.drawText(this.g.getTileString(i,j),i*width+x,j*height+y,foreground);
             }
         }
 
@@ -189,6 +190,9 @@ public class PuzzleView extends View{
 
     public void setSelectedTile(int tile){
         if(g.setTileIfValid(selX,selY,tile)) invalidate();
-        else Log.d(TAG, "setSelectedTile: invalid: " + tile);
+        else{
+            Log.d(TAG, "setSelectedTile: invalid: " + tile);
+            startAnimation(AnimationUtils.loadAnimation(g,R.anim.shake));
+        }
     }
 }
