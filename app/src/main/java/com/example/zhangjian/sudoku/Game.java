@@ -20,7 +20,12 @@ public class Game extends Activity{
 
     private int[][] puzzle = new int[9][9];
 
+    private boolean[][] initial = new boolean[9][9];
+
     private int[][][] used = new int[9][9][];
+
+    private int remains;
+    private boolean completion_flag = false;
 
     private PuzzleView puzzleView;
 
@@ -30,7 +35,14 @@ public class Game extends Activity{
 
         int diff = getIntent().getIntExtra(KEY_DIFFICULTY,EASY);
         puzzle = getPuzzle(diff);
+        for(int i=0;i<9;i++)
+            for(int j=0;j<9;j++){
+                if(puzzle[i][j]!=0) initial[i][j] = true;
+            }
+
         calculateUsedTiles();
+
+        remains = calculateRemains();
 
         puzzleView = new PuzzleView(this);
         setContentView(puzzleView);
@@ -116,6 +128,8 @@ public class Game extends Activity{
     }
 
     protected void showKeypadOrError(int x,int y){
+        if(completion_flag) this.finish();              //Close game when completion
+        if(initial[y][x]) return;                       //initial blocks cannot be changed
         int tiles[] = getUsedTiles(x,y);
         if(tiles.length==9){
             Toast toast = Toast.makeText(this,R.string.no_moves_label,Toast.LENGTH_SHORT);
@@ -131,12 +145,20 @@ public class Game extends Activity{
 
     protected boolean setTileIfValid(int x,int y,int value){
         int tiles[] = getUsedTiles(x,y);
+        if(getTile(x,y)==0) remains--;
+        if(value==0) remains++;
         if(value!=0){
             for(int tile:tiles){
                 if(tile==value) return false;
             }
         }
         setTile(x,y,value);
+        if(remains==0){                 //Show congratulations when game completion
+            Toast toast = Toast.makeText(this,R.string.completion_label,Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+            completion_flag = true;
+        }
         calculateUsedTiles();
         return true;
     }
@@ -182,5 +204,16 @@ public class Game extends Activity{
             }
         }
         return c;
+    }
+
+    private int calculateRemains(){
+        int r = 0;
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(puzzle[i][j]==0)
+                    r++;
+            }
+        }
+        return r;
     }
 }
